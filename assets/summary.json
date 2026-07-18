@@ -1,0 +1,45 @@
+{
+  "version": "0.0.1",
+  "business": "Brew Haven Cafe",
+  "tool": "Excel (Google Sheets compatible) \u2014 QuickBooks alternative",
+  "startup_total": 45200,
+  "monthly_fixed": 13170,
+  "monthly_variable": 5180,
+  "monthly_mixed": 620,
+  "regression": {
+    "intercept": 8728.310256544228,
+    "slope": 1.8907884424473589,
+    "r_squared": 0.999499749591376,
+    "r_value": 0.9997498435065525,
+    "p_value": 7.711313995521844e-18,
+    "std_err": 0.013376587052056814,
+    "n": 12,
+    "forecasts": [
+      {
+        "volume": 5200,
+        "cost": 18560.410157270493
+      },
+      {
+        "volume": 5400,
+        "cost": 18938.567845759964
+      },
+      {
+        "volume": 5600,
+        "cost": 19316.72553424944
+      }
+    ],
+    "equation": "Total Cost = 8728.31 + 1.8908 \u00d7 Cups"
+  },
+  "break_even_cups": 2418.34265389053,
+  "contribution_margin": 3.609211557552641,
+  "avg_monthly_profit": 6445.416666666668,
+  "avg_price": 5.5,
+  "charts": {
+    "regression_chart": "01_regression_cost_vs_volume.png",
+    "profitability_chart": "02_monthly_profitability.png",
+    "cost_structure_chart": "03_cost_structure.png",
+    "dashboard": "04_hands_on_dashboard.png",
+    "regression_output": "05_regression_output.png"
+  },
+  "workbook": "Brew_Haven_Cafe_Cost_Tracker.xlsx"
+}

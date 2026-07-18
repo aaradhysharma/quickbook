@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Brew Haven Cafe — Cost Tracker Assignment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #1b4332;
+      --leaf: #2d6a4f;
+      --mint: #95d5b2;
+      --cream: #f7f3eb;
+      --paper: #fffdf8;
+      --clay: #bc4749;
+      --amber: #e09f3e;
+      --line: #d8e2dc;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Source Sans 3", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse 80% 50% at 10% 0%, rgba(45,106,79,.12), transparent 55%),
+        radial-gradient(ellipse 60% 40% at 90% 10%, rgba(224,159,62,.14), transparent 50%),
+        linear-gradient(180deg, #eef6f1 0%, var(--cream) 40%, #efe8dc 100%);
+      min-height: 100vh;
+    }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
+    header.hero {
+      padding: 2.5rem 0 1.5rem;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 2rem;
+    }
+    .brand {
+      font-family: Fraunces, Georgia, serif;
+      font-size: clamp(2.4rem, 5vw, 3.6rem);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin: 0 0 0.75rem;
+      color: var(--ink);
+    }
+    .lede {
+      font-size: 1.15rem;
+      max-width: 38rem;
+      margin: 0;
+      color: #3d5a4c;
+      line-height: 1.5;
+    }
+    .cta-row { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.25rem; }
+    a.btn {
+      display: inline-block;
+      text-decoration: none;
+      background: var(--ink);
+      color: #fff;
+      padding: 0.7rem 1.15rem;
+      font-weight: 600;
+      border-radius: 4px;
+      transition: transform .2s ease, background .2s ease;
+    }
+    a.btn:hover { background: var(--leaf); transform: translateY(-1px); }
+    a.btn.ghost {
+      background: transparent;
+      color: var(--ink);
+      border: 1.5px solid var(--ink);
+    }
+    nav.toc {
+      display: flex; flex-wrap: wrap; gap: 0.5rem 1rem;
+      margin: 1.5rem 0 2rem;
+      font-size: 0.95rem;
+    }
+    nav.toc a { color: var(--leaf); text-decoration: none; font-weight: 600; }
+    nav.toc a:hover { text-decoration: underline; }
+    section {
+      margin-bottom: 2.75rem;
+      animation: rise .6s ease both;
+    }
+    section:nth-of-type(2) { animation-delay: .05s; }
+    section:nth-of-type(3) { animation-delay: .1s; }
+    section:nth-of-type(4) { animation-delay: .15s; }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    h2 {
+      font-family: Fraunces, Georgia, serif;
+      font-size: 1.65rem;
+      margin: 0 0 0.5rem;
+      color: var(--ink);
+    }
+    h3 { font-size: 1.1rem; margin: 1.25rem 0 0.5rem; color: var(--leaf); }
+    p, li { line-height: 1.55; color: #2f453a; }
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 0.85rem;
+      margin: 1.25rem 0;
+    }
+    .metric {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      padding: 1rem 1.1rem;
+      border-radius: 6px;
+      box-shadow: 0 8px 24px rgba(27,67,50,.06);
+      transition: transform .25s ease;
+    }
+    .metric:hover { transform: translateY(-3px); }
+    .metric strong {
+      display: block;
+      font-family: Fraunces, Georgia, serif;
+      font-size: 1.45rem;
+      color: var(--ink);
+    }
+    .metric span { font-size: 0.85rem; color: #5a7266; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--paper);
+      font-size: 0.92rem;
+      overflow: hidden;
+      border-radius: 6px;
+      border: 1px solid var(--line);
+    }
+    th, td { padding: 0.65rem 0.75rem; text-align: left; border-bottom: 1px solid var(--line); }
+    th { background: var(--ink); color: #fff; font-weight: 600; }
+    tr:nth-child(even) td { background: #f0f7f4; }
+    .tag {
+      display: inline-block;
+      padding: 0.15rem 0.5rem;
+      border-radius: 3px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .tag.fixed { background: #e8f5e9; color: #1b4332; }
+    .tag.variable { background: #fff3e0; color: #8a4b08; }
+    .tag.mixed { background: #e3f2fd; color: #0d47a1; }
+    .shot {
+      margin: 1rem 0 1.5rem;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 12px 32px rgba(27,67,50,.08);
+    }
+    .shot img { width: 100%; display: block; }
+    .shot figcaption {
+      padding: 0.65rem 1rem;
+      font-size: 0.88rem;
+      color: #5a7266;
+      border-top: 1px solid var(--line);
+    }
+    .report {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 1.5rem 1.35rem;
+      box-shadow: 0 12px 32px rgba(27,67,50,.06);
+    }
+    .report p { margin: 0 0 1rem; text-align: justify; }
+    .eq {
+      font-family: Fraunces, Georgia, serif;
+      background: #1b4332;
+      color: #d8f3dc;
+      padding: 1rem 1.25rem;
+      border-radius: 6px;
+      margin: 1rem 0;
+      font-size: 1.05rem;
+    }
+    footer.version {
+      position: fixed;
+      right: 12px;
+      bottom: 10px;
+      z-index: 50;
+      background: rgba(27,67,50,.92);
+      color: #d8f3dc;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.35rem 0.65rem;
+      border-radius: 999px;
+      letter-spacing: 0.02em;
+      backdrop-filter: blur(4px);
+    }
+    @media (max-width: 640px) {
+      .brand { font-size: 2.1rem; }
+      table { font-size: 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <p style="margin:0 0 .4rem; font-weight:700; color:var(--leaf); letter-spacing:.04em; text-transform:uppercase; font-size:.8rem;">QuickBooks alternative · Excel / Google Sheets</p>
+      <h1 class="brand">Brew Haven Cafe</h1>
+      <p class="lede">Hands-on cost tracker, profitability projection, and regression forecasting for a hypothetical coffee shop—built as an Excel workbook with screenshot-ready charts.</p>
+      <div class="cta-row">
+        <a class="btn" href="Brew_Haven_Cafe_Cost_Tracker.xlsx">Download Excel workbook</a>
+        <a class="btn ghost" href="docs/Written_Report.md">Written report (400–500 words)</a>
+      </div>
+    </header>
+
+    <nav class="toc">
+      <a href="#practice">Hands-on practice</a>
+      <a href="#regression">Regression</a>
+      <a href="#screenshots">Screenshots</a>
+      <a href="#report">Written report</a>
+    </nav>
+
+    <section id="practice">
+      <h2>Hands-on practice</h2>
+      <p>Hypothetical business: <strong>Brew Haven Cafe</strong>, a neighborhood specialty coffee shop. Startup and ongoing costs are entered in Excel (same layout works in Google Sheets), categorized as fixed, variable, or mixed, then used to project profitability.</p>
+      <div class="metrics">
+        <div class="metric"><strong>$45,200</strong><span>Startup capital</span></div>
+        <div class="metric"><strong>$13,170</strong><span>Monthly fixed costs</span></div>
+        <div class="metric"><strong>$5,180</strong><span>Monthly variable (typical)</span></div>
+        <div class="metric"><strong>$6,445</strong><span>Avg monthly profit</span></div>
+        <div class="metric"><strong>2,418</strong><span>Break-even cups / month</span></div>
+        <div class="metric"><strong>$3.61</strong><span>Contribution margin / cup</span></div>
+      </div>
+
+      <h3>Sample startup costs</h3>
+      <table>
+        <thead><tr><th>Item</th><th>Amount</th><th>Type</th></tr></thead>
+        <tbody>
+          <tr><td>Espresso machine (2-group)</td><td>$8,500</td><td><span class="tag fixed">Fixed</span></td></tr>
+          <tr><td>Lease deposit + build-out</td><td>$16,500</td><td><span class="tag fixed">Fixed</span></td></tr>
+          <tr><td>Furniture &amp; seating</td><td>$5,200</td><td><span class="tag fixed">Fixed</span></td></tr>
+          <tr><td>Initial inventory</td><td>$2,800</td><td><span class="tag variable">Variable</span></td></tr>
+          <tr><td>POS, licenses, signage, marketing, buffer…</td><td>$12,200</td><td><span class="tag fixed">Fixed</span></td></tr>
+        </tbody>
+      </table>
+
+      <h3>Sample ongoing expenses</h3>
+      <table>
+        <thead><tr><th>Expense</th><th>Amount</th><th>Type</th></tr></thead>
+        <tbody>
+          <tr><td>Rent</td><td>$3,500</td><td><span class="tag fixed">Fixed</span></td></tr>
+          <tr><td>Base salaries</td><td>$8,200</td><td><span class="tag fixed">Fixed</span></td></tr>
+          <tr><td>Hourly labor (volume-driven)</td><td>$2,100</td><td><span class="tag variable">Variable</span></td></tr>
+          <tr><td>Beans, milk, cups (COGS)</td><td>$3,080</td><td><span class="tag variable">Variable</span></td></tr>
+          <tr><td>Utilities</td><td>$620</td><td><span class="tag mixed">Mixed</span></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="regression">
+      <h2>Regression forecasting</h2>
+      <p>Simple linear regression on 12 months of cups sold (X) vs total cost (Y), equivalent to Excel Data Analysis → Regression or Google Sheets <code>LINEST</code>.</p>
+      <div class="eq">Total Cost = $8,728.31 + $1.8908 × Cups &nbsp;·&nbsp; R² = 0.9995 &nbsp;·&nbsp; p ≈ 7.7×10⁻¹⁸</div>
+      <table>
+        <thead><tr><th>Statistic</th><th>Value</th><th>Interpretation</th></tr></thead>
+        <tbody>
+          <tr><td>Intercept (a)</td><td>$8,728.31</td><td>Estimated monthly fixed cost when volume = 0</td></tr>
+          <tr><td>Slope (b)</td><td>$1.8908</td><td>Each extra cup adds ~$1.89 to total cost</td></tr>
+          <tr><td>R-squared</td><td>0.9995</td><td>~99.95% of cost variation explained by volume</td></tr>
+          <tr><td>Forecast @ 5,200 cups</td><td>$18,560</td><td>Next-period cost projection</td></tr>
+          <tr><td>Forecast @ 5,400 cups</td><td>$18,939</td><td>Growth scenario</td></tr>
+          <tr><td>Forecast @ 5,600 cups</td><td>$19,317</td><td>Peak volume scenario</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="screenshots">
+      <h2>Screenshots — hands-on practice &amp; regression output</h2>
+      <figure class="shot">
+        <img src="screenshots/04_hands_on_dashboard.png" alt="Hands-on expense tracker dashboard" />
+        <figcaption>Figure 1. Hands-on practice dashboard — startup capital, fixed/variable mix, profit, and model fit.</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="screenshots/03_cost_structure.png" alt="Fixed vs variable cost structure charts" />
+        <figcaption>Figure 2. Cost structure — fixed vs variable (startup and ongoing).</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="screenshots/02_monthly_profitability.png" alt="Monthly revenue cost and profit chart" />
+        <figcaption>Figure 3. Monthly revenue, total cost, and profit projection.</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="screenshots/01_regression_cost_vs_volume.png" alt="Regression scatter plot cost vs volume" />
+        <figcaption>Figure 4. Regression: total cost vs cups sold with forecast points.</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="screenshots/05_regression_output.png" alt="Regression output table" />
+        <figcaption>Figure 5. Regression output table — coefficients and interpretation.</figcaption>
+      </figure>
+    </section>
+
+    <section id="report">
+      <h2>Written report</h2>
+      <div class="report">
+        <p>Opening a coffee shop forces owners to confront a basic economic truth: not every dollar of cost behaves the same way. Fixed costs such as rent, salaried managers, insurance, and software subscriptions remain largely constant within a normal range of activity. Variable costs—coffee beans, milk, cups, and volume-driven hourly labor—rise and fall with cups sold. Mixed costs like utilities sit between those poles. Using an Excel cost tracker modeled on spreadsheet bookkeeping practices similar to those demonstrated in Jeremy’s Tutorials (2024) and Davie Mach (2023), Brew Haven’s startup package totals $45,200, while a typical month shows $13,170 in fixed costs and $5,180 in clearly variable costs (plus $620 of mixed utilities). That structure directly shapes pricing. The blended ticket of $5.50 must more than cover the estimated variable cost per cup; the remainder is contribution margin that pays down fixed costs and generates profit. Regression analysis of twelve months of operations estimates variable cost at about $1.89 per cup and fixed cost near $8,728 per month, implying a contribution margin of roughly $3.61 and a break-even volume near 2,418 cups. Prices set below variable cost destroy cash on every sale; prices that ignore fixed-cost coverage leave the shop busy but unprofitable.</p>
+        <p>The regression model Total Cost = 8,728.31 + 1.8908 × Cups fits the sample tightly (R² = 0.9995), confirming that volume explains nearly all month-to-month movement in total cost for this dataset. The slope coefficient is the managerial takeaway: each additional cup is expected to add about $1.89 of cost. Forecasts at 5,200, 5,400, and 5,600 cups project total costs of about $18,560, $18,939, and $19,317 respectively. At a $5.50 average price, those volumes remain comfortably profitable, but the model also warns that aggressive discounting or waste that pushes effective variable cost toward the selling price would erase margin quickly. Because the p-value on the slope is far below 0.05 (≈ 7.7 × 10⁻¹⁸), managers can treat the volume–cost relationship as statistically meaningful rather than random noise.</p>
+        <p>For decision-making, regression bridges accounting categories and forward planning. Managers can plug expected traffic into the equation to budget cash, schedule labor, and set promotional floors without waiting for month-end close. Cost-structure insight supports pricing decisions (floor = variable cost; target = variable cost + fixed-cost allocation + profit), while regression translates that structure into quantified forecasts. Together they help Brew Haven plan inventory purchases, evaluate whether a second shift is justified, and judge whether a seasonal menu price change still clears break-even. Spreadsheet tools such as Excel or Google Sheets—used here as a QuickBooks alternative—make these analyses accessible for small businesses that need clarity before they invest in full accounting software.</p>
+        <p style="font-size:.9rem;color:#5a7266;"><em>~440 words · References: Jeremy’s Tutorials (2024); Davie Mach (2023). See docs/Written_Report.md.</em></p>
+      </div>
+    </section>
+  </div>
+  <footer class="version">v0.0.1</footer>
+</body>
+</html>
