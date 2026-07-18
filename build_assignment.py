@@ -25,7 +25,7 @@ SCREENSHOTS = ROOT / "screenshots"
 ASSETS.mkdir(exist_ok=True)
 SCREENSHOTS.mkdir(exist_ok=True)
 
-VERSION = "0.0.1"
+VERSION = "0.0.2"
 
 # ---------------------------------------------------------------------------
 # Business scenario data: Brew Haven Cafe (hypothetical coffee shop)

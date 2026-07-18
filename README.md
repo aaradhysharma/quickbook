@@ -25,4 +25,4 @@ Open `Brew_Haven_Cafe_Cost_Tracker.xlsx` in Excel or upload to Google Sheets. Op
 
 ## Version
 
-0.0.1
+0.0.2
