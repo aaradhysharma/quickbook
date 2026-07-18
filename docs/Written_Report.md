@@ -2,7 +2,7 @@
 
 **Tool used:** Microsoft Excel (Google Sheets–compatible alternative to QuickBooks)  
 **Scenario:** Brew Haven Cafe — a hypothetical neighborhood specialty coffee shop  
-**Version:** 0.0.2
+**Version:** 0.0.3
 
 ---
 
